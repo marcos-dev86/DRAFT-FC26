@@ -1,6 +1,6 @@
 # DRAFT FC26 - Fifa World Cup 2026
 
-![DRAFT FC26](logo.webp)
+![DRAFT FC26](escudos/logo.png)
 
 ## Sobre o projeto
 
