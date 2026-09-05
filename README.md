@@ -1,6 +1,9 @@
+<div align="center">
+       
 # DRAFT FC26 - Fifa World Cup 2026
 
-![DRAFT FC26](escudos/logo.png)
+<img src="escudos/logo.png"  alt="DRAFT FC26" width="380">
+</div>
 
 ## Sobre o projeto
 
