@@ -1,0 +1,1090 @@
+:root {
+  --verde-escuro: #0a1612;
+  --verde-campo: #0f2a1f;
+  --dourado: #c9a24b;
+  --dourado-claro: #e8cd85;
+  --ciano: #1fd1a0;
+  --vermelho: #e4572e;
+  --branco: #f2f5f1;
+  --cinza: #8ea39a;
+  --fonte-carta: fantasy;
+  --fonte-display: unset;
+  --fonte-corpo: cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fonte-corpo);
+  background: linear-gradient(var(--verde-escuro), var(--verde-campo));
+  color: var(--branco);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.rodape {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #fdfdfd;
+  width: 100%;
+  height: auto;
+  background-color: var(--verde-campo);
+  margin-top: 40px;
+  padding: 20px 0%;
+}
+
+.rodape-info h4 {
+  font-size: 0.65rem;
+  margin-top: 2px;
+  background-color: var(--verde-escuro);
+  color: #fdfdfd;
+}
+
+/* escudo pequeno no canto SUPERIOR DIREITO da carta, ao lado do OVR/POS.
+   Sem círculo/fundo: o escudo (PNG/WEBP com fundo transparente) fica solto
+   no mesmo lugar, com sua forma própria. O fallback (fbEscudo) já desenha
+   seu próprio círculo dentro do SVG gerado, então continua redondo quando
+   o arquivo do escudo ainda não existe. */
+.carta-escudo-mini {
+  width: auto;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  flex-shrink: 0;
+}
+
+.tela {
+  display: none;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.tela.ativa {
+  display: flex;
+  flex-direction: column;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* ===== TELA INICIAL ===== */
+#tela-inicio.ativa {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.conteudo-inicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--ciano);
+  font-weight: 700;
+}
+
+.titulo-jogo {
+  font-family: var(--fonte-carta);
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  margin: 8px 0 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.titulo-jogo span {
+  color: var(--dourado);
+}
+
+/* logo oficial (EA SPORTS FC26) em PNG com fundo transparente */
+.logo-fc26 {
+  width: min(70vw, 320px);
+  height: auto;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
+}
+
+.logo-mini {
+  height: 40px;
+  width: auto;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+
+.logo-mini--resultado {
+  display: block;
+  margin: 0 auto 10px;
+  height: 56px;
+}
+
+.subtitulo {
+  color: var(--cinza);
+  font-size: 1.05rem;
+  max-width: 420px;
+  margin: 0 auto 32px;
+}
+
+.botoes-inicio {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn {
+  font-family: var(--fonte-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  padding: 14px 40px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primario {
+  background: linear-gradient(180deg, var(--dourado-claro), var(--dourado));
+  color: #1a1204;
+  box-shadow: 0 6px 18px rgba(201, 162, 75, 0.35);
+}
+
+.btn-primario:hover {
+  background: transparent;
+  color: var(--branco);
+  border-color: rgba(242, 245, 241, 0.25);
+}
+.btn-secundario {
+  background: transparent;
+  color: var(--branco);
+  border-color: rgba(242, 245, 241, 0.25);
+  box-shadow: 0 6px 18px rgba(201, 162, 75, 0.35);
+}
+
+.btn-secundario:hover {
+  border-color: #1a1204;
+  box-shadow: 0 6px 18px rgba(201, 162, 75, 0.35);
+  color:#1a1204;
+  background: linear-gradient(180deg, var(--dourado-claro), var(--dourado));
+}
+
+.btn-voltar {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+}
+
+/* ===== TELA DE DRAFT ===== */
+#tela-draft.ativa {
+  padding: 20px clamp(16px, 4vw, 48px) 48px;
+}
+
+.topo-draft {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.indicador-vez {
+  font-family: var(--fonte-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 2px solid var(--ciano);
+  color: var(--ciano);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.indicador-vez.j2 {
+  border-color: var(--vermelho);
+  color: var(--vermelho);
+}
+
+.progresso {
+  display: flex;
+  gap: 18px;
+  font-size: 0.85rem;
+  color: var(--cinza);
+}
+
+.progresso b {
+  color: var(--branco);
+}
+
+.slot-atual-label {
+  font-family: var(--fonte-display);
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  letter-spacing: 0.02em;
+  color: var(--dourado-claro);
+  text-align: center;
+  margin: 12px 0 28px;
+}
+
+.rotulo-secao {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--ciano);
+  margin: 14px 0 8px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 
+    repeat(auto-fit, 
+    minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card-jogador {
+  background: linear-gradient(160deg, #16241c 0%, #0c1712 100%);
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  border-radius: 14px;
+  padding: 16px 16px 18px;
+  cursor: pointer;
+  color: var(--branco);
+  text-align: left;
+  font-family: var(--fonte-corpo);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-jogador::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201, 162, 75, 0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-jogador:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--dourado);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 162, 75, 0.3);
+}
+
+/* ===== CARTA DO JOGADOR (estilo Ultimate Team) ===== */
+/* "carta-wrap" existe só pra dar um espaço sem "overflow: hidden" acima
+   da carta, pro selo do capitão poder flutuar no bico da carta sem ser
+   cortado (a carta em si precisa do overflow:hidden por causa do recorte
+   diagonal do clip-path). */
+.carta-wrap {
+  position: relative;
+  padding-top: 11px;
+}
+
+.carta-visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  margin-bottom: 12px;
+  clip-path: polygon(50% 0%, 100% 14%, 100% 100%, 0% 100%, 0% 14%);
+  /* usa as variáveis --c1/--c2/--c3 definidas inline pelo JS conforme o
+     tipoCarta (Bronze/Prata/Ouro); antes essas variáveis
+     eram passadas mas nunca lidas aqui, então toda carta ficava dourada */
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.10), transparent 55%),
+    linear-gradient(170deg, var(--c1, var(--dourado-claro)) 0%, var(--c2, var(--dourado)) 45%, var(--c3, #7a5f28) 100%);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--cborda, rgba(255, 255, 255, 0.25));
+}
+
+.carta-topo {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  /*----------------------------------------------------------------
+    padding em porcetagem, escala junto com o clip-path da carta em
+     qualquer largura, já que a altura do card é sempre 4/3 da 
+     largura (aspect-ratio 3/4). O corte do clip-path nas bordas fica 
+     a 14% da ALTURA = ~18,67% da LARGURA, então 20% de padding-top
+     garante folga em qualquer tamanho de carta. 
+    ---------------------------------------------------------------- */
+  padding: 20% 8% 0 8%;
+}
+
+.carta-ovr {
+  font-family: var(--fonte-carta);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--ctxt, #1a1204);
+  display: block;
+}
+
+.carta-pos {
+  font-family: var(--fonte-carta);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--ctxt, #3a2e10);
+  display: block;
+}
+
+.carta-topo-esq {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* selo do capitão: em vez de ficar em cima da foto/GER (cortando a
+   leitura), fica "pendurado" no topo da carta, no bico do recorte, bem
+   visível e sem sobrepor nada. */
+.selo-capitao {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fonte-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a1204;
+  background: linear-gradient(180deg, var(--dourado-claro), var(--dourado));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.45);
+}
+
+/* a versão mini (mini-carta do campo) não tem o "carta-wrap" por cima,
+   então ela mesma flutua com um valor negativo de "top" */
+.selo-capitao--mini {
+  width: 15px;
+  height: 15px;
+  font-size: 0.55rem;
+  top: -7px;
+}
+
+.capitao-info {
+  font-size: 0.9rem;
+  color: var(--dourado-claro);
+  margin-bottom: 6px;
+}
+
+.carta-foto {
+  position: absolute;
+  z-index: 2;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78%;
+  height: 66%;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+
+.carta-foto.foto-fallback {
+  width: 60%;
+  height: 55%;
+  opacity: 0.85;
+}
+
+.carta-nome {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 5px 8px 8px;
+  text-align: center;
+  font-family: var(--fonte-carta);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: var(--ctxt, #1a1204);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.18), transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-atributos {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+  font-size: 0.78rem;
+  color: var(--cinza);
+  border-top: 1px solid rgba(242, 245, 241, 0.08);
+  padding-top: 10px;
+}
+
+.card-atributos b {
+  color: var(--branco);
+  margin-right: 4px;
+}
+
+/* ===== ETAPA DE POSICIONAMENTO (escolher onde a carta vai jogar) ===== */
+.posicionamento-container {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.carta-selecionada-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.carta-selecionada {
+  width: 150px;
+}
+
+/* ===== TELA DE RESULTADO ===== */
+#tela-resultado.ativa {
+  padding: 40px clamp(16px, 4vw, 48px) 60px;
+  align-items: center;
+}
+
+.titulo-resultado {
+  font-family: var(--fonte-display);
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  color: var(--dourado);
+  letter-spacing: 0.05em;
+  margin-bottom: 28px;
+}
+
+.resultado-times {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1080px;
+  margin-bottom: 32px;
+}
+
+.time-final {
+  background: linear-gradient(160deg, #16241c 0%, #0c1712 100%);
+  border: 1px solid rgba(201, 162, 75, 0.3);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.time-final-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.time-final-topo h2 {
+  font-family: var(--fonte-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
+}
+
+.ger-medio {
+  font-family: var(--fonte-carta);
+  font-size: 1.3rem;
+  color: #1a1204;
+  background: linear-gradient(180deg, var(--dourado-claro), var(--dourado));
+  padding: 4px 14px;
+  border-radius: 999px;
+}
+
+.time-final h3 {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--ciano);
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+}
+
+/* ===== CAMPO / FORMAÇÃO 4-3-3 ===== */
+/* O campo agora é dividido em duas camadas: ".campo-formacao" (container,
+   sem recorte) e ".campo-grama" (o visual do gramado, com bordas
+   arredondadas e recorte). Isso evita que as cartas posicionadas perto das
+   bordas (laterais, pontas) fiquem cortadas pelo overflow do container. */
+.campo-formacao {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.campo-grama {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 11.11%,
+      transparent 11.11%,
+      transparent 22.22%),
+    linear-gradient(180deg, #143624, #0d2317);
+}
+
+/* linha central */
+.campo-grama::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* círculo central */
+.campo-grama::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* pequena área / gol na base, para orientar a formação */
+.campo-grama .grande-area {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 55%;
+  height: 13%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: none;
+  transform: translateX(-50%);
+}
+
+.campo-jogador {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 15%;
+  min-width: 52px;
+  text-align: center;
+  z-index: 2;
+}
+
+.campo-carta {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  clip-path: polygon(50% 0%, 100% 16%, 100% 100%, 0% 100%, 0% 16%);
+  /* mesma correção da carta grande: respeitar a raridade do jogador */
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.12), transparent 55%),
+    linear-gradient(170deg, var(--c1, var(--dourado-claro)) 0%, var(--c2, var(--dourado)) 45%, var(--c3, #7a5f28) 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45), inset 0 0 0 1px var(--cborda, rgba(255, 255, 255, 0.25));
+  overflow: hidden;
+}
+
+.campo-carta-topo {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  /* padding em % (não px): o clip-path corta os cantos superiores a 16%
+     da altura da mini-carta. Um padding fixo em px não escala com o
+     tamanho do card e deixava o OVR/POS cortados pelo recorte em cards
+     menores/maiores. Usando % (como na carta grande) a folga é sempre
+     suficiente, em qualquer tamanho. */
+  padding: 22% 14% 0 7%;
+}
+
+.campo-ovr {
+  font-family: var(--fonte-carta);
+  font-size: 0.85rem;
+  color: var(--ctxt, #1a1204);
+  line-height: 1;
+}
+
+.campo-pos {
+  font-family: var(--fonte-carta);
+  font-size: 0.55rem;
+  color: var(--ctxt, #3a2e10);
+}
+
+.campo-foto {
+  position: absolute;
+  z-index: 1;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 82%;
+  height: 68%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.campo-escudo {
+  position: absolute;
+  z-index: 2;
+  bottom: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.campo-nome {
+  margin-top: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--branco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.campo-jogador.vazio .campo-carta {
+  background: linear-gradient(170deg, #3a4a42, #1c2b23);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.campo-jogador.vazio .campo-vazio-label {
+  font-family: var(--fonte-carta);
+  font-size: 0.9rem;
+  color: var(--cinza);
+}
+
+.campo-jogador.vazio .campo-nome {
+  color: var(--cinza);
+}
+
+/* estados interativos da etapa de posicionamento */
+.campo-jogador.selecionavel {
+  cursor: pointer;
+}
+
+.campo-jogador.selecionavel .campo-carta--vazia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: linear-gradient(170deg, rgba(31, 209, 160, 0.30), rgba(15, 42, 31, 0.9));
+  box-shadow: 0 0 0 2px var(--ciano), 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+.campo-jogador.selecionavel:hover {
+  transform: translate(-50%, -54%);
+}
+
+.campo-vazio-ovr {
+  font-family: var(--fonte-carta);
+  font-size: 1.1rem;
+  color: var(--dourado-claro);
+  line-height: 1;
+}
+
+.campo-jogador.selecionavel .campo-vazio-label {
+  color: var(--branco);
+}
+
+.campo-jogador.indisponivel {
+  opacity: 0.3;
+  filter: grayscale(0.7);
+}
+
+.lista-elenco {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Durante a etapa de posicionamento (escolher onde a carta vai jogar), o
+   campo e a lista de reservas recebem um destaque sutil pra reforçar que
+   estão no "modo interativo", esperando um toque num slot livre. */
+.campo-formacao--interativo .campo-grama {
+  box-shadow: 0 0 0 2px rgba(201, 162, 75, 0.35), 0 0 22px rgba(201, 162, 75, 0.15);
+}
+
+.lista-elenco--interativa {
+  padding: 6px;
+  border: 1px dashed rgba(201, 162, 75, 0.25);
+  border-radius: 10px;
+}
+
+.linha-jogador {
+  display: grid;
+  grid-template-columns: 26px 42px 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.linha-jogador.vazio {
+  color: var(--cinza);
+  font-style: italic;
+  grid-template-columns: 26px 42px 1fr;
+}
+
+.linha-jogador.vazio.selecionavel,
+.linha-jogador.vazio.indisponivel {
+  grid-template-columns: 26px 42px 1fr auto auto;
+  font-style: normal;
+}
+
+.linha-jogador.selecionavel {
+  cursor: pointer;
+  border: 1px solid var(--ciano);
+  background: rgba(31, 209, 160, 0.08);
+  color: var(--branco);
+}
+
+.linha-jogador.selecionavel:hover {
+  background: rgba(31, 209, 160, 0.18);
+}
+
+.linha-jogador.selecionavel .linha-ger {
+  color: var(--dourado-claro);
+  font-weight: 700;
+}
+
+.linha-jogador.indisponivel {
+  opacity: 0.35;
+}
+
+.linha-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.linha-pos {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ciano);
+}
+
+.linha-nome {
+  font-weight: 600;
+}
+
+.linha-selecao {
+  color: var(--cinza);
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.linha-escudo {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.linha-ger {
+  color: var(--dourado-claro);
+  font-weight: 700;
+}
+
+/* ===== AÇÕES DA TELA DE RESULTADO ===== */
+.acoes-resultado {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-pequeno {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none;
+}
+
+/* ===== TELA DE ESCOLHA DE CAPITÃO ===== */
+.card-capitao-opcao {
+  position: relative;
+}
+
+.selo-capitao-opcao {
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--fonte-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--dourado-claro);
+  border-top: 1px solid rgba(242, 245, 241, 0.08);
+  padding-top: 10px;
+}
+
+@media (max-width: 480px) {
+  .botoes-inicio {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .linha-jogador {
+    grid-template-columns: 22px 34px 1fr auto;
+  }
+
+  .linha-jogador.vazio {
+    grid-template-columns: 22px 34px 1fr;
+  }
+
+  .linha-jogador.vazio.selecionavel,
+  .linha-jogador.vazio.indisponivel {
+    grid-template-columns: 22px 34px 1fr auto;
+  }
+
+  .linha-selecao {
+    display: none;
+  }
+
+  .campo-jogador {
+    min-width: 46px;
+  }
+
+  .cards-tecnico {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== INDICADOR "SEM ESCRITA" DE bonus DE TÉCNICO =====
+   Quando o técnico do time favorece o estilo daquele jogador (ofensivo,
+   defensivo ou equilibrado), o GER alterna sozinho, a cada 1/2s, entre o
+   valor base e o valor com bonus — como o "GER dinâmico" do FC Mobile —
+   com setinhas douradas junto do valor turbinado. Nenhum texto é usado;
+   e a cor dourada garante boa leitura tanto sobre o fundo da carta
+   (Ouro/Prata/Bronze) quanto sobre o fundo escuro do banco de reservas. */
+.ovr-flip {
+  display: inline-grid;
+  grid-template-areas: "n";
+  place-items: center;
+}
+
+.ovr-flip-base,
+.ovr-flip-boost {
+  grid-area: n;
+}
+
+.ovr-flip-base {
+  animation: ovr-flip-base 1s steps(1, end) infinite;
+}
+
+.ovr-flip-boost {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #ffd76a;
+  /* contorno escuro (4 sombras nas diagonais) garante leitura tanto no
+     fundo claro/dourado da carta quanto no fundo escuro do banco de
+     reservas — antes só tinha um brilho claro, que "lavava" o número
+     em cima de fundos claros e ficava ilegível. */
+  text-shadow:
+    -1px -1px 0 #2a1a00, 1px -1px 0 #2a1a00,
+    -1px 1px 0 #2a1a00, 1px 1px 0 #2a1a00,
+    0 0 8px rgba(255, 215, 106, 0.85);
+  animation: ovr-flip-boost 1s steps(1, end) infinite;
+}
+
+.ovr-seta {
+  font-size: 0.55em;
+  line-height: 1;
+  color: #ffd76a;
+  text-shadow: -1px -1px 0 #2a1a00, 1px -1px 0 #2a1a00, -1px 1px 0 #2a1a00, 1px 1px 0 #2a1a00;
+}
+
+@keyframes ovr-flip-base {
+
+  0%,
+  49.9% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ovr-flip-boost {
+
+  0%,
+  49.9% {
+    opacity: 0;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ===== SISTEMA DE TÉCNICO =====
+   Tela de escolha (mesmo grid usado pras cartas de jogador) e o cartão
+   de cada técnico: foto, nome, nacionalidade, GER próprio, tipo tático
+   (cor indica o estilo) e uma frase curta descrevendo o estilo dele. */
+.cards-capitao,
+.cards-tecnico {
+  max-width: 1100px;
+}
+
+.card-tecnico-opcao {
+  background: linear-gradient(160deg, #16241c 0%, #0c1712 100%);
+  border: 1px solid rgba(201, 162, 75, 0.35);
+  border-radius: 14px;
+  padding: 18px 16px;
+  cursor: pointer;
+  color: var(--branco);
+  font-family: var(--fonte-corpo);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card-tecnico-opcao:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--dourado);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(201, 162, 75, 0.3);
+}
+
+.tecnico-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.tecnico-foto {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 4px;
+  box-shadow: 0 0 0 3px rgba(201, 162, 75, 0.4);
+}
+
+.tecnico-nome {
+  font-family: var(--fonte-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+.tecnico-nacionalidade {
+  font-size: 0.8rem;
+  color: var(--cinza);
+}
+
+.tecnico-ger {
+  font-family: var(--fonte-carta);
+  font-size: 1.5rem;
+  color: var(--dourado-claro);
+}
+
+.tecnico-estilo {
+  font-size: 0.78rem;
+  color: var(--cinza);
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+.tecnico-tipo {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+
+.tecnico-tipo--ofensivo {
+  background: rgba(228, 87, 46, 0.2);
+  color: var(--vermelho);
+}
+
+.tecnico-tipo--defensivo {
+  background: rgba(31, 120, 209, 0.2);
+  color: #4fa3ff;
+}
+
+.tecnico-tipo--equilibrado {
+  background: rgba(31, 209, 160, 0.2);
+  color: var(--ciano);
+}
+
+.tecnico-tipo--mini {
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  margin: 0 0 0 6px;
+  vertical-align: middle;
+}
+
+.selo-tecnico-opcao {
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--fonte-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--dourado-claro);
+  border-top: 1px solid rgba(242, 245, 241, 0.08);
+  padding-top: 10px;
+}
+
+.tecnico-info {
+  font-size: 0.9rem;
+  color: var(--dourado-claro);
+  margin-bottom: 6px;
+}

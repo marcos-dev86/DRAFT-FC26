@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draft FC26: Copa do Mundo 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="escudos/logo.png" type="image/png" />
+    <meta property="og:image" content="escudos/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1596" />
+    <meta property="og:image:height" content="1068" />
+  </head>
+  <body>
+    <!-- TELA INICIAL -->
+    <section id="tela-inicio" class="tela ativa">
+      <div class="conteudo-inicio">
+        <span class="eyebrow">2 JOGADORES · 4-3-3 OFENSIVO</span>
+        <h1 class="titulo-jogo">
+          DRAFT
+          <img
+            src="escudos/logo.png"
+            alt="EA Sports FC26"
+            class="logo-fc26"
+            onerror="this.style.display = 'none'"
+          />
+        </h1>
+        <p class="subtitulo">
+          Monte sua seleção ideal para a Copa do Mundo, carta por carta, com as
+          melhores cartas de 2026.
+        </p>
+        <div class="botoes-inicio">
+          <button id="btn-jogar" class="btn btn-primario">JOGAR</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA DE DRAFT -->
+    <section id="tela-draft" class="tela">
+      <header class="topo-draft">
+        <img
+          src="escudos/logo.png"
+          alt="EA Sports FC26"
+          class="logo-mini"
+          onerror="this.style.display = 'none'"
+        />
+        <div id="indicador-vez" class="indicador-vez j1">Vez de: Jogador 1</div>
+        <div class="progresso">
+          <span>J1 <b id="progresso-j1">0/18</b></span>
+          <span>J2 <b id="progresso-j2">0/18</b></span>
+        </div>
+      </header>
+      <h2 id="slot-atual-label" class="slot-atual-label">
+        Escolha uma carta para o seu time
+      </h2>
+
+      <!-- Passo 1: cartas sorteadas (posições e times aleatórios) -->
+      <div id="cards-container" class="cards-container"></div>
+
+      <!-- Passo 2: escolher em qual posição a carta selecionada vai jogar -->
+      <div
+        id="posicionamento-container"
+        class="posicionamento-container oculto"
+      >
+        <div class="carta-selecionada-wrap">
+          <div
+            id="carta-selecionada"
+            class="carta-selecionada"
+            title="Toque para ver os detalhes"
+          ></div>
+          <button id="btn-voltar-carta" class="btn btn-secundario btn-voltar">
+            Escolher outra carta
+          </button>
+        </div>
+        <h3 class="rotulo-secao">Titulares — toque numa posição livre</h3>
+        <div
+          id="campo-posicionamento"
+          class="campo-formacao campo-formacao--interativo"
+        ></div>
+        <br />
+        <h3 class="rotulo-secao">Reservas</h3>
+        <div
+          id="reservas-posicionamento"
+          class="lista-elenco lista-elenco--interativa"
+        ></div>
+      </div>
+    </section>
+
+    <!-- TELA DE RESULTADO -->
+    <section id="tela-resultado" class="tela">
+      <img
+        src="escudos/logo.png"
+        alt="EA Sports FC26"
+        class="logo-mini logo-mini--resultado"
+        onerror="this.style.display = 'none'"
+      />
+      <h1 class="titulo-resultado">TIME FINAL</h1>
+      <div id="resultado-times" class="resultado-times"></div>
+      <div class="acoes-resultado">
+        <button id="btn-novo-draft" class="btn btn-primario">NOVO DRAFT</button>
+      </div>
+    </section>
+
+    <!-- RODA PÉ DO JOGO COM MEUS CREDITOS (: -->
+    <div class="rodape">
+      <h2>Feito por - Marcos Gabriel de Queiroz Rosa</h2>
+      <br>
+      <div class="rodape-info">
+        <h3>1º M-TEC - Desenvolvimento de Sistemas</h3>
+        <h3>ETEC DARCY PERREIRA DE MORAES</h3>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

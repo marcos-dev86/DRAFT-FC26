@@ -1,0 +1,92 @@
+[
+  {
+    "id": "guardiola",
+    "nome": "Pep Guardiola",
+    "nacionalidade": "Espanha",
+    "foto": "tecnicos/guardiola.webp",
+    "tipo": "Ofensivo",
+    "ger": 93,
+    "estilo": "Posse de bola e construção pelo campo"
+  },
+  {
+    "id": "klopp",
+    "nome": "Jürgen Klopp",
+    "nacionalidade": "Alemanha",
+    "foto": "tecnicos/klopp.webp",
+    "tipo": "Ofensivo",
+    "ger": 89,
+    "estilo": "Pressão alta e transições rápidas"
+  },
+  {
+    "id": "luis-enrique",
+    "nome": "Luis Enrique",
+    "nacionalidade": "Espanha",
+    "foto": "tecnicos/luis-enrique.webp",
+    "tipo": "Ofensivo",
+    "ger": 87,
+    "estilo": "Futebol vertical e ataque em movimento"
+  },
+  {
+    "id": "simeone",
+    "nome": "Diego Simeone",
+    "nacionalidade": "Argentina",
+    "foto": "tecnicos/simeone.webp",
+    "tipo": "Defensivo",
+    "ger": 89,
+    "estilo": "Bloco baixo e intensidade defensiva"
+  },
+  {
+    "id": "tuchel",
+    "nome": "Thomas Tuchel",
+    "nacionalidade": "Alemanha",
+    "foto": "tecnicos/tuchel.webp",
+    "tipo": "Defensivo",
+    "ger": 88,
+    "estilo": "Organização tática e solidez defensiva"
+  },
+  {
+    "id": "emery",
+    "nome": "Unai Emery",
+    "nacionalidade": "Espanha",
+    "foto": "tecnicos/emery.webp",
+    "tipo": "Defensivo",
+    "ger": 86,
+    "estilo": "Disciplina posicional e marcação por zona"
+  },
+  {
+    "id": "ancelotti",
+    "nome": "Carlo Ancelotti",
+    "nacionalidade": "Itália",
+    "foto": "tecnicos/ancelotti.webp",
+    "tipo": "Equilibrado",
+    "ger": 92,
+    "estilo": "Equilíbrio tático e gestão de grupo"
+  },
+  {
+    "id": "zidane",
+    "nome": "Zinedine Zidane",
+    "nacionalidade": "França",
+    "foto": "tecnicos/zidane.webp",
+    "tipo": "Equilibrado",
+    "ger": 90,
+    "estilo": "Controle de jogo pelo meio-campo"
+  },
+  {
+    "id": "arteta",
+    "nome": "Mikel Arteta",
+    "nacionalidade": "Espanha",
+    "foto": "tecnicos/arteta.webp",
+    "tipo": "Equilibrado",
+    "ger": 85,
+    "estilo": "Construção paciente e ocupação de espaços"
+  },
+  {
+    "id": "xabi-alonso",
+    "nome": "Xabi Alonso",
+    "nacionalidade": "Espanha",
+    "foto": "tecnicos/xabi-alonso.webp",
+    "tipo": "Equilibrado",
+    "ger": 86,
+    "estilo": "Circulação de bola e domínio do meio-campo"
+  }
+]
