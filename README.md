@@ -1,668 +1,520 @@
-# DRAFT FC26 - Copa do mundo
+# DRAFT FC26 - Fifa World Cup 2026
+
+![DRAFT FC26](logo.webp)
 
 ## Sobre o projeto
 
-DRAFT FC26 é um jogo de draft de futebol criado para simular a montagem de duas seleções para a Copa do Mundo de 2026.
+O DRAFT FC26 é um jogo de montagem de elenco inspirado no sistema de Draft de jogos de futebol.
 
-A ideia do jogo é colocar dois jogadores para disputar cartas de jogadores de futebol e montar suas próprias seleções. Cada jogador precisa escolher seus atletas, definir onde cada um vai jogar e completar uma formação 4-3-3 com titulares e reservas.
+A ideia é montar uma equipe escolhendo jogadores disponíveis em diferentes rodadas. Cada escolha influencia diretamente a formação final, já que o jogador precisa ser compatível com a posição escolhida.
 
-O projeto foi desenvolvido como uma aplicação web estática utilizando HTML, CSS e JavaScript puro.
+O projeto foi desenvolvido utilizando HTML, CSS e JavaScript, com os jogadores e técnicos armazenados em arquivos JSON.
 
-Os jogadores ficam armazenados em um arquivo JSON, assim como os técnicos. Toda a lógica da partida acontece no navegador, sem banco de dados e sem servidor próprio.
-
-A aplicação possui três etapas principais:
-
-1. Tela inicial
-2. Draft
-3. Resultado das seleções
+O foco do projeto foi criar uma experiência simples de Draft, com cartas de jogadores, sistema de posicionamento, cálculo de GER, escolha de capitão, escolha de técnico e montagem automática do elenco final.
 
 ## Objetivo do jogo
 
-Cada jogador precisa montar uma seleção com 18 jogadores.
+O objetivo é montar o melhor time possível utilizando os jogadores disponibilizados durante o Draft.
 
-São 11 titulares e 7 reservas.
+Durante a partida, o jogador precisa tomar decisões levando em consideração:
 
-A formação principal utiliza o esquema 4 3 3.
+* A posição do jogador
+* O GER do jogador
+* A compatibilidade com a posição escolhida
+* A perna dominante
+* Os atributos do jogador
+* O técnico escolhido
+* O bônus de técnico
+* A escolha do capitão
+* A composição da formação
 
-Os titulares são:
+No final do Draft, o jogo apresenta o elenco titular, os reservas, o capitão, o técnico escolhido e a média geral da equipe.
 
-1. Goleiro
-2. Lateral Direito
-3. Zagueiro
-4. Zagueiro
-5. Lateral Esquerdo
-6. Meia Direita
-7. Meio Campista
-8. Meia Esquerda
-9. Ponta Esquerda
-10. Atacante
-11. Ponta Direita
+## Como jogar
 
-As reservas possuem vagas específicas para goleiro, defesa, meio campo e ataque.
+### Início
 
-A ideia não é simplesmente escolher sempre o jogador com maior GER.
+Ao iniciar o jogo, os jogadores são carregados a partir do arquivo `jogadores.json`.
 
-O posicionamento interfere diretamente na nota do jogador. A perna dominante também pode alterar o GER e o técnico escolhido pode aumentar a nota de determinados jogadores.
+O sistema organiza os jogadores disponíveis e inicia as rodadas do Draft.
 
-Por isso, uma carta com GER menor pode acabar sendo uma escolha melhor dependendo da posição disponível.
+A cada rodada são apresentadas cartas para escolha.
 
-## Como funciona o draft
+O jogador seleciona uma carta e depois precisa definir onde aquele jogador será utilizado dentro da formação.
 
-Quando uma partida começa, o sistema carrega os jogadores do arquivo `jogadores.json` e os técnicos do arquivo `tecnicos.json`.
+### Escolha do capitão
 
-Depois disso, o estado da partida é criado novamente.
+Em uma etapa específica do Draft, o jogador escolhe o capitão da equipe.
 
-Os dois times começam vazios e o Jogador 1 começa escolhendo o capitão.
+O capitão possui uma posição própria dentro da lógica do jogo e é identificado separadamente no elenco final.
 
-O draft possui três momentos importantes:
+### Escolha dos jogadores
 
-1. Escolha do capitão
-2. Escolha do técnico
-3. Draft dos jogadores
+As cartas disponíveis são apresentadas dinamicamente.
 
-## Escolha do capitão
+Ao escolher um jogador, ele deixa de estar disponível para as próximas escolhas.
 
-Antes do draft normal existe uma escolha especial de capitão.
+Isso impede que o mesmo jogador seja utilizado mais de uma vez durante o Draft.
 
-O sistema procura os jogadores que possuem a propriedade `capitaoElegivel` marcada como verdadeira.
+### Posicionamento
 
-Esses jogadores são organizados pelo `overall_base`.
+Depois de escolher um jogador, o sistema verifica se ele pode atuar na posição selecionada.
 
-Os quatro melhores candidatos disponíveis são apresentados ao jogador.
+Caso a posição seja compatível, o jogador é colocado no campo.
 
-O jogador escolhe uma das cartas e depois escolhe onde esse capitão será colocado.
+Caso não seja compatível, o posicionamento não é permitido.
 
-O capitão não fica preso a uma posição específica. Ele pode ser colocado em qualquer posição compatível com as regras normais de posicionamento.
+O sistema também calcula o GER considerando a posição em que o jogador foi colocado.
 
-Depois que o Jogador 1 escolhe seu capitão, chega a vez do Jogador 2.
+### Formação
 
-Os candidatos que já foram apresentados como opção de capitão são armazenados pelo sistema e não aparecem novamente para o segundo jogador.
+A formação utilizada no resultado final é baseada em um esquema 4 3 3.
 
-Isso evita que os dois jogadores recebam exatamente as mesmas opções.
+A equipe titular possui:
 
-Depois que os dois capitães são definidos, a escolha de técnico começa.
+* 1 goleiro
+* 4 defensores
+* 3 jogadores de meio campo
+* 3 jogadores de ataque
 
-## Escolha do técnico
+Além dos titulares, os jogadores restantes selecionados durante o Draft aparecem como reservas.
 
-Cada seleção pode escolher um técnico.
+## Jogadores por posição
 
-O arquivo `tecnicos.json` possui os técnicos disponíveis e suas informações.
+A base de jogadores é organizada pelas seguintes posições:
 
-Cada técnico possui:
+| Posição | Função                  |
+| ------- | ----------------------- |
+| GK      | Goleiro                 |
+| LD      | Lateral direito         |
+| LE      | Lateral esquerdo        |
+| ZAG     | Zagueiro                |
+| MD      | Meio campista defensivo |
+| MEI     | Meio campista           |
+| PD      | Ponta direita           |
+| PE      | Ponta esquerda          |
+| ATA     | Atacante                |
 
-1. Nome
-2. Nacionalidade
-3. Foto
-4. Tipo
-5. GER
-6. Estilo de jogo
+A quantidade total de jogadores disponível em cada posição é definida diretamente pelo arquivo `jogadores.json`.
 
-Existem três tipos de técnico:
-
-### Ofensivo
-
-O técnico ofensivo aumenta em 1 ponto o GER dos jogadores da categoria de ataque.
-
-### Defensivo
-
-O técnico defensivo aumenta em 1 ponto o GER dos jogadores da defesa e do goleiro.
-
-### Equilibrado
-
-O técnico equilibrado aumenta em 1 ponto o GER dos jogadores do meio campo.
-
-O técnico escolhido por um jogador deixa de estar disponível para o outro.
-
-Dessa maneira, os dois times não conseguem utilizar o mesmo técnico.
-
-O bônus também é aplicado aos jogadores que já fazem parte do elenco.
-
-Quando um novo jogador é colocado no time, o sistema também verifica se ele recebe o bônus do técnico.
-
-## Escolha das cartas
-
-Depois da escolha dos capitães e técnicos começa o draft principal.
-
-Em cada rodada o sistema verifica quais posições ainda estão disponíveis no time atual.
-
-Com base nisso, ele identifica quais categorias de jogadores ainda podem ser utilizadas.
-
-Depois são selecionados quatro jogadores aleatoriamente entre os jogadores disponíveis.
-
-O jogador recebe quatro cartas para escolher.
-
-A escolha de uma carta não coloca automaticamente o jogador na escalação.
-
-Primeiro é necessário escolher onde ele será utilizado.
-
-Essa separação foi feita para permitir que o jogador veja o impacto de cada possível posição antes de confirmar a escolha.
-
-## Sistema de posicionamento
-
-Depois que uma carta é escolhida, o jogo mostra o campo 4 3 3.
-
-Cada vaga possui sua própria posição.
-
-O sistema verifica se o jogador pode ocupar aquela vaga.
-
-Quando a posição é válida, a vaga mostra o GER que o jogador teria naquele local.
-
-Quando a posição não é válida, a vaga fica indisponível.
-
-O jogador também pode ser colocado em uma das vagas de reserva compatíveis.
-
-Depois de confirmar a posição, o jogador é adicionado ao elenco e removido da lista de jogadores disponíveis.
-
-O turno então passa para o outro jogador.
+Isso permite aumentar ou diminuir o tamanho da base sem precisar alterar a lógica principal do jogo.
 
 ## Regras de posição
 
-O sistema possui regras específicas para calcular o GER de cada jogador.
+Cada jogador possui uma posição original.
 
-O goleiro possui uma regra especial.
+O sistema verifica essa posição antes de permitir o posicionamento.
 
-Um goleiro só pode jogar como goleiro.
+A posição também influencia o cálculo do GER final.
 
-Um jogador de linha não pode ocupar a posição de goleiro.
+Dessa forma, um jogador pode possuir um GER alto na sua posição original, mas apresentar um valor diferente quando utilizado fora dela.
 
-Para os jogadores de linha, o sistema permite jogar fora da posição natural, mas aplica uma penalização.
+Isso faz com que a escolha das cartas não seja baseada somente no maior GER.
 
-Quando o jogador está em sua posição natural, ele mantém o `overall_base`.
+O jogador precisa considerar também onde aquela carta poderá ser utilizada.
 
-Quando ele muda para outra posição dentro da mesma categoria, perde 3 pontos.
+## Categorias utilizadas
 
-Quando muda entre categorias próximas, perde 6 pontos.
+As posições são divididas em grupos de acordo com a função dentro do campo.
 
-Quando vai de defesa para ataque ou de ataque para defesa, perde 18 pontos.
+### Goleiro
 
-Depois disso, o bônus da perna dominante é aplicado.
+GK
 
-O resultado final sempre fica entre 1 e 99.
+### Defesa
 
-## Categorias de posição
+LD
 
-Internamente, o jogo trabalha com quatro categorias.
+LE
 
-### GK
+ZAG
 
-Representa goleiros.
+### Meio campo
 
-### DEF
+MD
 
-Representa jogadores de defesa.
+MEI
 
-Inclui:
+### Ataque
 
-1. Zagueiros
-2. Lateral Direito
-3. Lateral Esquerdo
+PD
 
-### MEI
+PE
 
-Representa jogadores de meio campo.
+ATA
 
-Inclui:
-
-1. Meia Direita
-2. Meio Campista
-3. Meia Esquerda
-
-### ATA
-
-Representa jogadores de ataque.
-
-Inclui:
-
-1. Ponta Esquerda
-2. Atacante
-3. Ponta Direita
-
-Essas categorias são utilizadas tanto para o sorteio das cartas quanto para os cálculos de posicionamento e bônus de técnico.
-
-## Bônus de perna dominante
-
-Algumas posições também levam em consideração a perna boa do jogador.
-
-Nas posições pelo lado esquerdo, jogadores de perna esquerda recebem 1 ponto.
-
-Jogadores de perna direita nessas posições recebem uma redução de 3 pontos.
-
-Nas posições pelo lado direito acontece o contrário.
-
-Jogadores de perna direita recebem 1 ponto.
-
-Jogadores de perna esquerda recebem uma redução de 3 pontos.
-
-Jogadores que possuem ambas as pernas recebem o bônus positivo nas posições consideradas pelo sistema.
-
-Esse cálculo é realizado antes da definição final da nota da carta.
+Essa divisão é utilizada pelo sistema para determinar a compatibilidade dos jogadores com os espaços disponíveis na formação.
 
 ## Sistema de GER
 
-O GER é calculado de acordo com a posição em que o jogador está sendo utilizado.
+O GER representa a classificação geral do jogador.
 
-O sistema possui duas situações principais.
+O valor é calculado pelo sistema a partir das informações presentes nos dados do jogador.
 
-A primeira é o GER da carta.
+Quando o jogador é posicionado em campo, o sistema calcula novamente o valor considerando o espaço escolhido.
 
-Nesse caso o jogador é avaliado na sua posição natural.
+Isso permite que o mesmo jogador tenha desempenhos diferentes dependendo da posição.
 
-A segunda é o GER do jogador dentro de uma vaga específica.
+## Bônus de perna dominante
 
-Nesse caso são aplicadas as penalizações ou bônus referentes à posição escolhida.
+A perna boa do jogador também faz parte dos dados utilizados pelo projeto.
 
-Isso significa que o mesmo jogador pode ter GER diferente dependendo de onde for colocado.
+Essa informação pode ser utilizada pelo sistema para diferenciar jogadores e suas características dentro do Draft.
 
-Por exemplo, um jogador com GER 85 na posição natural pode apresentar uma nota menor caso seja colocado em outra posição.
+O objetivo é aproximar a lógica de montagem de elenco de jogos de futebol onde a posição e a perna dominante influenciam a utilização do jogador.
 
-O técnico também pode aumentar essa nota.
+## Escolha do técnico
 
-## Raridade das cartas
+Depois das escolhas de jogadores, o sistema trabalha com técnicos disponíveis no arquivo `tecnicos.json`.
 
-A raridade da carta é definida automaticamente através do GER.
+Cada técnico possui um estilo de atuação.
 
-As categorias são:
+Os estilos utilizados atualmente são:
 
-### Ouro
+### Ofensivo
 
-GER igual ou superior a 80.
+O técnico ofensivo concede bônus para jogadores de ataque.
 
-### Prata
+### Defensivo
 
-GER igual ou superior a 70.
+O técnico defensivo concede bônus para jogadores defensivos e goleiros.
 
-### Bronze
+### Equilibrado
 
-GER abaixo de 70.
+O técnico equilibrado concede bônus para jogadores do meio campo.
 
-As cores e características visuais da carta são definidas pelo JavaScript através dessas categorias.
+O bônus é aplicado quando o jogador é posicionado no campo.
 
-O projeto não precisa cadastrar manualmente a cor de cada jogador.
+## Como o técnico influencia o GER
 
-A interface calcula o tipo da carta a partir da nota.
+O bônus do técnico é aplicado de acordo com o estilo selecionado.
 
-## Atributos
+A lógica utilizada atualmente é:
 
-Os atributos apresentados na carta mudam de acordo com a posição do jogador.
+```text
+Ofensivo
+ATA recebe +1
 
-Para goleiros são utilizados:
+Defensivo
+DEF ou GK recebe +1
 
-1. Reflexos
-2. Elasticidade
-3. Manejo
-4. Chute
-5. Posicionamento
-6. Velocidade
+Equilibrado
+MEI recebe +1
+```
 
-Para defensores são utilizados:
+Esse sistema foi separado em uma função própria para facilitar alterações futuras.
 
-1. Finalização
-2. Passe
-3. Dividida
-4. Marcação
-5. Físico
-6. Velocidade
+## Cartas de jogadores
 
-Para jogadores de meio campo são utilizados:
+As cartas são criadas dinamicamente pelo JavaScript.
 
-1. Finalização
-2. Passe
-3. Dividida
-4. Visão
-5. Drible
-6. Fôlego
+Cada carta utiliza os dados do jogador para apresentar as informações necessárias na interface.
 
-Para jogadores de ataque são utilizados:
+Entre as informações utilizadas estão:
 
-1. Finalização
-2. Passe
-3. Dividida
-4. Drible
-5. Velocidade
-6. Posicionamento
+* Nome
+* Posição
+* GER
+* Perna boa
+* Altura
+* Peso
+* Idade
+* Pé ruim
+* Skills
+* Tipo da carta
+* Atributos
 
-Isso permite que a carta mostre informações mais relevantes para a função que o jogador está desempenhando.
+As informações são carregadas a partir dos arquivos JSON e utilizadas para montar a interface.
+
+## Dados dos jogadores
+
+O arquivo `jogadores.json` concentra os jogadores utilizados no Draft.
+
+Cada jogador possui informações que são normalizadas antes de serem utilizadas pelo restante da aplicação.
+
+Entre os dados disponíveis estão:
+
+```text
+nome
+posicao
+pernaBoa
+altura
+peso
+idade
+peRuim
+skills
+tipoCarta
+capitaoElegivel
+atributos
+```
+
+O sistema também calcula o GER do jogador antes de disponibilizá lo para a interface.
+
+## Dados dos técnicos
+
+Os técnicos ficam armazenados no arquivo `tecnicos.json`.
+
+Cada registro possui as informações utilizadas pelo sistema para identificar o técnico e determinar o bônus aplicado ao elenco.
+
+A separação dos dados em JSON permite modificar jogadores e técnicos sem precisar alterar a estrutura principal do JavaScript.
+
+## Controle do estado do jogo
+
+O jogo mantém um estado interno para controlar as informações da partida.
+
+Entre os dados controlados estão:
+
+* Jogadores disponíveis
+* Jogador selecionado
+* Rodada atual
+* Ordem do Draft
+* Posição selecionada
+* Capitão
+* Técnico
+* Jogadores posicionados
+* Jogadores titulares
+* Jogadores reservas
+
+Quando uma escolha é confirmada, o estado é atualizado e o jogador selecionado é removido da lista de jogadores disponíveis.
 
 ## Sorteio das cartas
 
-O sorteio não escolhe simplesmente quatro jogadores aleatórios de toda a base.
+As cartas apresentadas durante o Draft são selecionadas a partir dos jogadores disponíveis.
 
-Primeiro o sistema verifica as vagas que ainda estão abertas no time.
+Depois que uma escolha é confirmada, o jogador deixa de fazer parte das opções disponíveis.
 
-Depois transforma essas vagas em categorias.
+Isso mantém o Draft controlado e evita duplicações.
 
-Por exemplo, se o time ainda precisa de um goleiro, jogadores de defesa, meio campo e ataque, essas categorias entram na lista de possibilidades.
+## Compatibilidade de jogadores
 
-Somente jogadores pertencentes às categorias disponíveis entram no sorteio.
+Antes de confirmar uma posição, o sistema verifica se o jogador selecionado pode atuar naquele espaço.
 
-Depois dessa filtragem, a lista é embaralhada e quatro jogadores são escolhidos.
+Essa validação é feita antes de alterar o elenco.
 
-Isso evita que o jogador receba constantemente cartas que não podem ser utilizadas no momento.
+O objetivo é evitar situações em que um jogador incompatível seja colocado em uma posição que não faz sentido dentro das regras do jogo.
 
-## Controle dos dois jogadores
+## Capitão
 
-O jogo possui um estado central chamado `state`.
+O sistema possui uma regra específica para jogadores elegíveis a capitão.
 
-Esse objeto guarda todas as informações necessárias para continuar a partida.
+A propriedade `capitaoElegivel` determina quais jogadores podem assumir essa função.
 
-Entre elas estão:
+O capitão é armazenado separadamente e aparece identificado no resultado final da equipe.
 
-1. Jogadores disponíveis
-2. Elenco do Jogador 1
-3. Elenco do Jogador 2
-4. Turno atual
-5. Cartas da rodada
-6. Jogador selecionado
-7. Capitão
-8. Técnico
-9. Técnicos já escolhidos
-10. Estado da escolha de capitão
+## Resultado final
 
-Cada time também possui seu próprio objeto dentro do estado.
+Quando todas as escolhas necessárias são concluídas, o Draft é finalizado.
 
-O elenco utiliza os identificadores das vagas como referência.
+O resultado apresenta:
 
-Isso facilita verificar se uma posição está ocupada e quais vagas ainda estão disponíveis.
+* Formação titular
+* Jogadores reservas
+* Capitão
+* Técnico
+* GER dos jogadores
+* Média geral da equipe
+
+A média geral é calculada utilizando os jogadores titulares.
+
+A formação final é renderizada visualmente em um campo utilizando a estrutura 4 3 3.
 
 ## Estrutura do projeto
-
-A aplicação possui uma estrutura simples.
 
 ```text
 DRAFT FC26
 
 index.html
-
-style.css
-
 script.js
-
 data.js
-
 jogadores.json
-
 tecnicos.json
-
-escudos
-
-jogadores
-
-tecnicos
+logo.webp
 ```
 
-## index.html
+## `index.html`
 
-O `index.html` contém a estrutura visual principal da aplicação.
+O `index.html` é responsável pela estrutura principal da aplicação.
 
-Existem três telas.
+Nele ficam os elementos utilizados para apresentar:
 
-A primeira é a tela inicial.
+* Tela inicial
+* Cartas
+* Área de seleção
+* Campo
+* Formação
+* Resultado final
+* Informações do jogador
+* Informações do técnico
 
-A segunda é a tela onde acontece o draft.
+O JavaScript utiliza esses elementos para atualizar a interface durante o jogo.
 
-A terceira apresenta as seleções completas.
+## `data.js`
 
-Também existem elementos para mostrar:
+O `data.js` concentra a lógica relacionada aos dados.
 
-1. Turno atual
-2. Progresso dos dois jogadores
-3. Cartas disponíveis
-4. Carta selecionada
-5. Campo de futebol
-6. Reservas
-7. Resultado final
+Ele é responsável principalmente por carregar e preparar os jogadores e técnicos.
 
-O HTML também carrega as fontes utilizadas pela interface e os arquivos responsáveis pelo estilo e pela lógica.
+Entre suas funções está `pegaJogadores`, que busca os jogadores no arquivo JSON e normaliza os dados antes de utilizá los.
 
-## style.css
+Também existe a função responsável pelo bônus dos técnicos.
 
-O `style.css` controla toda a aparência do jogo.
+Manter essa parte separada facilita a manutenção da aplicação e evita concentrar toda a lógica em um único arquivo.
 
-Ele define:
+## `script.js`
 
-1. Layout
-2. Cores
-3. Cartas
-4. Campo
-5. Botões
-6. Indicadores
-7. Painéis
-8. Técnicos
-9. Reservas
-10. Resultado final
-11. Responsividade
+O `script.js` controla o funcionamento do Draft.
 
-As cartas utilizam variáveis CSS para receber automaticamente as cores correspondentes ao tipo Bronze, Prata ou Ouro.
+Ele gerencia:
 
-Isso permite que a mesma estrutura HTML seja utilizada para diferentes tipos de carta.
+* Rodadas
+* Seleção de cartas
+* Jogador selecionado
+* Posicionamento
+* Validação de posição
+* Capitão
+* Técnico
+* Atualização do campo
+* Elenco final
+* Reservas
+* Cálculo da média da equipe
 
-## data.js
+Também é responsável por gerar partes da interface de forma dinâmica.
 
-O `data.js` concentra as regras relacionadas aos dados e aos cálculos.
+## Tratamento das imagens
 
-Entre suas responsabilidades estão:
+As imagens dos jogadores são utilizadas diretamente pela interface.
 
-1. Identificar atributos por posição
-2. Identificar categorias
-3. Corrigir posições antigas
-4. Verificar compatibilidade de posição
-5. Calcular GER
-6. Aplicar bônus de perna dominante
-7. Definir raridade da carta
-8. Definir titulares
-9. Definir reservas
-10. Definir posições no campo
-11. Carregar jogadores
-12. Carregar técnicos
-13. Calcular bônus de técnico
+O sistema possui tratamento para situações em que uma imagem não esteja disponível ou não consiga ser carregada.
 
-A separação dessas regras evita colocar todos os cálculos diretamente dentro do fluxo principal da partida.
+Isso evita que uma carta fique quebrada visualmente por causa de uma imagem ausente.
 
-## script.js
+## Tecnologias utilizadas
 
-O `script.js` controla o funcionamento da partida.
+### HTML
 
-Ele é responsável por:
+Utilizado para estruturar as telas e os elementos da aplicação.
 
-1. Iniciar o draft
-2. Alternar os turnos
-3. Escolher capitães
-4. Escolher técnicos
-5. Sortear cartas
-6. Renderizar cartas
-7. Selecionar jogadores
-8. Renderizar o campo
-9. Confirmar posicionamento
-10. Atualizar o progresso
-11. Finalizar a partida
-12. Renderizar o resultado
+### CSS
 
-A lógica é baseada em funções pequenas que cuidam de partes específicas da partida.
+Utilizado para construir o visual do jogo, cartas, campo, botões, menus e demais elementos da interface.
 
-Isso deixa o fluxo mais fácil de acompanhar e modificar.
+### JavaScript
 
-## Carregamento dos jogadores
+Responsável por toda a lógica do Draft e pela atualização dinâmica da página.
 
-Os jogadores são carregados através do arquivo `jogadores.json`.
+### JSON
 
-O navegador utiliza `fetch` para buscar os dados.
+Utilizado para armazenar os jogadores e técnicos.
 
-Depois que os dados são carregados, algumas informações são normalizadas.
+## Como executar
 
-Posições antigas podem ser corrigidas.
+O projeto pode ser executado diretamente no navegador.
 
-Informações que não possuem o tipo esperado recebem valores padrão.
+Basta baixar ou clonar o projeto e abrir o `index.html`.
 
-A propriedade `ger` também é calculada novamente através das regras do jogo.
+Como os dados são carregados através de arquivos JSON, dependendo do navegador e da forma como o projeto for aberto, pode ser necessário utilizar um servidor local.
 
-Isso significa que o valor utilizado pela interface não depende apenas do valor bruto salvo no JSON.
+Uma opção simples é utilizar uma extensão de servidor local no editor de código.
 
-## Carregamento dos técnicos
+Também é possível utilizar qualquer servidor HTTP local.
 
-Os técnicos são carregados de `tecnicos.json`.
+## Decisões de implementação
 
-Cada técnico possui informações próprias para aparecer na interface.
-
-Entre elas estão nome, nacionalidade, foto, tipo, GER e estilo.
-
-O sistema utiliza o tipo do técnico para determinar qual categoria de jogador receberá bônus.
-
-## Tela de resultado
-
-Quando os dois times terminam suas escalações, o jogo muda para a tela final.
-
-Cada seleção é apresentada separadamente.
-
-O sistema calcula o GER médio considerando apenas os 11 titulares.
-
-As reservas não entram no cálculo do GER médio.
-
-Também são exibidos:
-
-1. GER médio
-2. Capitão
-3. Técnico
-4. Titulares
-5. Reservas
-6. Formação 4 3 3
-
-O botão NOVO DRAFT retorna para a tela inicial e permite começar outra partida.
-
-## Tratamento de imagens
-
-O projeto possui imagens para jogadores, seleções, técnicos e identidade visual.
-
-Como imagens podem eventualmente não existir ou apresentar algum problema de carregamento, o projeto possui mecanismos de fallback.
-
-Quando um escudo não consegue ser carregado, o sistema pode gerar uma representação alternativa utilizando a sigla da seleção.
-
-Isso evita que uma imagem quebrada comprometa a apresentação da carta.
-
-## Decisões de desenvolvimento
-
-Uma das principais decisões foi não utilizar framework.
-
-Para o tamanho atual do projeto, HTML, CSS e JavaScript puro são suficientes.
-
-Isso também deixa a lógica mais fácil de estudar e entender.
-
-Outra decisão importante foi separar os dados da lógica.
+A separação entre dados e lógica foi uma das principais decisões do projeto.
 
 Os jogadores ficam em `jogadores.json`.
 
 Os técnicos ficam em `tecnicos.json`.
 
-As regras ficam em `data.js`.
+A preparação desses dados fica em `data.js`.
 
-O fluxo da partida fica em `script.js`.
+A lógica do jogo fica principalmente em `script.js`.
 
-A interface fica em `index.html` e `style.css`.
+A interface fica estruturada no `index.html` e estilizada pelo CSS.
 
-Essa organização permite alterar os dados sem precisar modificar a estrutura principal do jogo.
-
-Também foi importante separar a escolha da carta do posicionamento.
-
-Dessa forma, o jogador consegue escolher um atleta e depois comparar as diferentes posições disponíveis antes de confirmar.
-
-## Tecnologias utilizadas
-
-HTML5
-
-CSS3
-
-JavaScript
-
-JSON
-
-Google Fonts
-
-O projeto não possui dependências de framework para funcionar.
-
-## Como executar
-
-O projeto não possui etapa de compilação.
-
-É necessário executar os arquivos através de um servidor local porque o jogo utiliza `fetch` para carregar os arquivos JSON.
-
-Uma forma simples de executar é utilizar a extensão Live Server no Visual Studio Code.
-
-Também é possível utilizar um servidor local através do comando:
-
-```bash
-npx serve .
-```
-
-Depois basta acessar o endereço local fornecido pelo servidor.
-
-Abrir o `index.html` diretamente pode causar bloqueios do navegador ao tentar carregar os arquivos JSON.
-
-## Requisitos
-
-Para executar o projeto é necessário apenas:
-
-1. Um navegador moderno
-2. Os arquivos do projeto
-3. Um servidor local
-
-Não é necessário banco de dados.
-
-Não é necessário backend.
-
-Não é necessário instalar um framework.
-
-## Estado atual
-
-O projeto já possui o sistema principal de draft funcionando com dois jogadores.
-
-A partida possui:
-
-1. Escolha de capitão
-2. Escolha de técnico
-3. Sorteio de quatro cartas
-4. Escolha de jogador
-5. Posicionamento
-6. Titulares
-7. Reservas
-8. Cálculo de GER
-9. Bônus de perna dominante
-10. Bônus de técnico
-11. Raridade de cartas
-12. Formação 4 3 3
-13. Tela de resultado
-14. Reinício da partida
+Essa divisão facilita alterações na base de jogadores sem exigir mudanças na lógica do Draft.
 
 ## Possíveis evoluções
 
-O projeto pode receber novas funcionalidades futuramente.
+O projeto pode receber novas funcionalidades futuramente, como:
 
-Algumas possibilidades são:
+* Mais formações
+* Mais posições
+* Sistema de química
+* Clubes e seleções
+* Ligas
+* Novos tipos de cartas
+* Mais estilos de técnicos
+* Sistema de raridade
+* Mercado de jogadores
+* Histórico de Drafts
+* Salvamento do elenco
+* Sistema de pontuação
+* Modo multiplayer
+* Ranking
+* Animações adicionais
+* Novas regras de compatibilidade
 
-1. Modo contra computador
-2. Mais formações
-3. Mais posições
-4. Sistema de pontuação
-5. Histórico de partidas
-6. Salvamento das seleções
-7. Sistema de mercado
-8. Mais tipos de cartas
-9. Cartas especiais
-10. Animações adicionais
-11. Sistema online
-12. Banco de dados
-13. Contas de jogadores
-14. Ranking
-15. Sistema de campeonato
+## Estrutura geral do funcionamento
 
-Também seria possível transformar a aplicação em uma versão com backend e banco de dados caso o projeto passe a trabalhar com partidas online e contas de usuários.
+O fluxo principal do jogo pode ser resumido da seguinte forma:
+
+```text
+Carregar jogadores
+       |
+       v
+Carregar técnicos
+       |
+       v
+Iniciar Draft
+       |
+       v
+Apresentar cartas
+       |
+       v
+Escolher jogador
+       |
+       v
+Validar posição
+       |
+       v
+Posicionar jogador
+       |
+       v
+Atualizar estado
+       |
+       v
+Próxima rodada
+       |
+       v
+Escolher técnico
+       |
+       v
+Finalizar Draft
+       |
+       v
+Montar formação 4 3 3
+       |
+       v
+Exibir resultado
+```
+
+## Objetivo do projeto
+
+O DRAFT FC26 foi desenvolvido como um projeto prático para trabalhar principalmente com manipulação do DOM, gerenciamento de estado, consumo de dados JSON, regras de negócio e criação de interfaces dinâmicas utilizando JavaScript puro.
+
+A ideia é manter o projeto simples de executar e fácil de modificar, deixando a base de jogadores e técnicos independente da lógica principal do jogo.
 
 ## Créditos
 
-Projeto desenvolvido por Marcos Gabriel de Queiroz Rosa.
+Projeto desenvolvido por Marcos.
 
-1º M TEC Desenvolvimento de Sistemas.
+Repositório:
 
-ETEC Darcy Pereira de Moraes.
+https://github.com/marcos-dev86/DRAFT-FC26
 
 ## Licença
 
-Este projeto foi desenvolvido para fins educacionais e de estudo.
+Este projeto é disponibilizado para fins de estudo e desenvolvimento.
+
+Verifique o repositório para informações adicionais sobre utilização, distribuição e possíveis restrições relacionadas aos dados e imagens utilizados no projeto.
